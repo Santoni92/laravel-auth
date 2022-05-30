@@ -28,3 +28,8 @@ Route::middleware('auth')
 ->group(function(){
     Route::get('/','HomeController@index')->name('home');
 });
+
+//da mettere in fondo al file web.php
+Route::get("{any?}",function(){
+    return view('guest.home');
+})->where("any",".*");
