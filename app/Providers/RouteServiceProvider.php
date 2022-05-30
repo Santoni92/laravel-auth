@@ -21,8 +21,10 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
-
+    //public const HOME = '/home';  dopo il login laravel di default reindirizza gli utenti
+    //alla rotta '/home' tuttavia voglio individuare l'area di amministrazione utilizzando
+    //il prefisso /admin
+    public const HOME = '/admin';
     /**
      * Define your route model bindings, pattern filters, etc.
      *
