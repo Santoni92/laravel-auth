@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 
-
+use App\Post;   //importo il modello
 class PostController extends Controller
 {
     /**
@@ -17,6 +17,8 @@ class PostController extends Controller
     public function index()
     {
         //
+        $posts = Post::all();   //recupero tutte le righe(tuple,record) della tabella posts
+        return view('admin.posts.index',compact('posts'));
     }
 
     /**
