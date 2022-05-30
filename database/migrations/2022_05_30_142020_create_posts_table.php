@@ -19,7 +19,9 @@ class CreatePostsTable extends Migration
 
             $table->string('title');
             $table->text('content');
-            $table->string('slug')->unique();
+            $table->string('slug')->unique();   //Lo slug è un campo univoco, si usa in modo tale che nella SEO gli indirizzi dei post non siano determinati dai loro ID
+                                                //Immagina la differenza tra www.sito.com/12423451233 e www.sito.com/panini-al-tonno
+                                                //Il secondo è molto più parlante
 
         });
     }
