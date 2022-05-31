@@ -27,6 +27,7 @@ Route::middleware('auth')
 ->prefix('admin')
 ->group(function(){
     Route::get('/','HomeController@index')->name('home');
+    Route::resource('posts','PostController');
 });
 
 //da mettere in fondo al file web.php
