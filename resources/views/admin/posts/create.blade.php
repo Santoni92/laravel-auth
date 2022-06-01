@@ -1,15 +1,21 @@
-<form action="{{ route('admin.posts.store') }}" method="post">
-    @csrf
-    <div>
-        <label for="title">Titolo:</label>
-        <input type="text" name="title">
-    </div>
+@extends('layouts.dashboard')
 
-    <div>
-        <label for="content">Contenuto</label>
-        <textarea name="content"></textarea>
-    </div>
+@section('content')
+    <h1>Crea un nuovo post</h1>
 
-    <button type="submit">Salva il post creato</button>
+    <form action="{{ route('admin.posts.store') }}" method="post">
+        @csrf
+        <div>
+            <label for="title">Titolo:</label>
+            <input type="text" name="title">
+        </div>
 
-</form>
+        <div>
+            <label for="content">Contenuto</label>
+            <textarea name="content"></textarea>
+        </div>
+
+        <button type="submit">Salva il post creato</button>
+
+    </form>
+@endsection
