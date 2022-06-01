@@ -3,7 +3,7 @@
 @section('content')
     <h1>Tutti i Posts</h1>
     <a href="{{ route('admin.posts.create') }}">Crea un nuovo post</a>
-    <a href="{{ route('admin.posts.edit', $post->id) }}">Modifica post</a>
+
     <table>
         <thead>
             <tr>
@@ -16,6 +16,7 @@
                 <tr>
                     <td>{{ $post->title }}</td>
                     <td>{{ $post->slug }}</td>
+                    <td><a href="{{ route('admin.posts.edit', $post->id) }}">Modifica post</a></td>
                 </tr>
             @endforeach
         </tbody>
