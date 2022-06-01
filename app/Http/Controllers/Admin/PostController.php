@@ -108,6 +108,30 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $post = Post::findOrFail($id);  // $post = Post::find($id);
+        $request->validate([
+            'title'=>'required|max:250',
+            'content'=>'required'
+        ]);
+
+        $postData = $request->all();
+        $post->fill($postData);
+
+        $slug = Str::slug($post->title);
+        $alternativeSlug = $slug;
+        $postFound = Post::where('slug',$alternativeSlug)->first();
+        $counter = 1;
+        while($postFound)
+        {
+            $alternativeSlug = $slug . '-' . $counter;
+            $counter++;
+            $postFound = Post::where('slug',$alternativeSlug)->first();
+        }
+        $post->slug = $alternativeSlug;
+
+        $post->update();
+        return redirect()->route('admin.posts.index');
+
     }
 
     /**

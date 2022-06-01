@@ -7,7 +7,7 @@
         @csrf
         <div>
             <label for="title">Titolo:</label>
-            <input type="text" name="title">
+            <input type="text" name="title" placeholder="Inserisci il titolo" value="{{ old('title') }}">
         </div>
 
         <div>
