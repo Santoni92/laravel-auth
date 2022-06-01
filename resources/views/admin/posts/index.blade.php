@@ -16,7 +16,8 @@
                 <tr>
                     <td>{{ $post->title }}</td>
                     <td>{{ $post->slug }}</td>
-                    <td><a href="{{ route('admin.posts.edit', $post->id) }}">Modifica post</a></td>
+                    <td><a href="{{ route('admin.posts.show', $post->id) }}">Visualizza dettaglio del post</a></td>
+
                 </tr>
             @endforeach
         </tbody>

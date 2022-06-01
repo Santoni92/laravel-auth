@@ -17,5 +17,6 @@
 
         <button type="submit">Modifica il post</button>
 
+        <a href="{{ route('admin.posts.index') }}">Torna alla visualizzazione di tutti i post presenti</a>
     </form>
 @endsection
