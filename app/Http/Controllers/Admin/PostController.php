@@ -45,17 +45,19 @@ class PostController extends Controller
             'title'=>'required|max:250',
             'content'=>'required'
         ]);
-        
+
         $postData = $request->all();
         $newPost = new Post();
         $newPost->fill($postData);
-        $slug = Str::slug($newPost->title);
+        $slug = Str::slug($newPost->title); //creo uno slug tramite metodo statico slug() della classe Str;voglio derivare lo slug che sto creando da 'title'
+        //slug dev'essere univoco e derivare da title cioè praticmente è il title ma scritto meglio(ovvero senz accenti o spazi) e ciò serve in ottica SEO
+        //versione pulita del title ed inserito nell'url;è utile in ottica seo)
         $alternativeSlug = $slug;
-        $postFound = Post::where('slug',$alternativeSlug)->first();
-        $counter = 1;
+        $postFound = Post::where('slug',$alternativeSlug)->first(); //con first() mi vado a prendere la prima occorrenza
+        $counter = 1;   //a parità di titolo aggiungo un numero(contatore)
         while($postFound)
         {
-            $alternativeSlug = $slug . '-' . $counter;
+            $alternativeSlug = $slug . '_' . $counter;
             $counter++;
             $postFound = Post::where('slug',$alternativeSlug)->first();
         }
