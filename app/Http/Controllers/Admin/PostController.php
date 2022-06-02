@@ -29,7 +29,7 @@ class PostController extends Controller
     public function create()
     {
         //
-        return view('admin.posts.create');
+        return view('admin.posts.create');  //ritorno la vista che mostra il form dove l'utente inserisce i dati del post da creare
     }
 
     /**
@@ -45,6 +45,7 @@ class PostController extends Controller
             'title'=>'required|max:250',
             'content'=>'required'
         ]);
+        
         $postData = $request->all();
         $newPost = new Post();
         $newPost->fill($postData);
