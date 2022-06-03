@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    //'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Laravel'),   //se la funzione env() alla voce APP_NAME nel file .env non trova nulla userà come nome quello di default 'Laravel'
 
     /*
     |--------------------------------------------------------------------------

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Str; //importo la classe Str
 use App\Post;   //importo il modello
 class PostController extends Controller
 {
@@ -41,9 +41,17 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //effettuo il controllo e la validazione dei dati immessi dall'utente e conservati in $request
-        $request->validate([
+        $request->validate([    //se la validazione fallisce vengo rispedito alla rotta create
             'title'=>'required|max:250',
-            'content'=>'required'
+            'content'=>'required|min:5|max:100'
+        ],[//personalizzo i messaggi d'errore
+
+            //'title'=>'Titolo deve essere valorizzto',
+              'title.required'=>'Titolo dev\'essere valorizzato',
+              'title.max'=>'Hai superato i 250 caratteri',//'Hai superato i :attribute caratteri'
+              'content.required'=>':attribute deve essere compilato',
+              'content.min'=>'Minimo 5 caratteri',//':attribute deve avere almeno :min caratteri'
+              'content.max'=>'Il contenuto deve avere al massimo  :max caratteri'
         ]);
 
         $postData = $request->all();
@@ -52,7 +60,10 @@ class PostController extends Controller
         $slug = Str::slug($newPost->title); //creo uno slug tramite metodo statico slug() della classe Str;voglio derivare lo slug che sto creando da 'title'
         //slug dev'essere univoco e derivare da title cioè praticmente è il title ma scritto meglio(ovvero senz accenti o spazi) e ciò serve in ottica SEO
         //versione pulita del title ed inserito nell'url;è utile in ottica seo)
-        $alternativeSlug = $slug;
+
+        //dd($slug);
+
+        $alternativeSlug = $slug;   //perchè se al primo colpo trovo lo slug,la variabile 'alternativeSlug' rimarrebbe indefinito
         $postFound = Post::where('slug',$alternativeSlug)->first(); //con first() mi vado a prendere la prima occorrenza
         $counter = 1;   //a parità di titolo aggiungo un numero(contatore)
         while($postFound)
@@ -63,7 +74,7 @@ class PostController extends Controller
         }
         $newPost->slug = $alternativeSlug;
         $newPost->save();
-        return redirect()->route('admin.posts.index');
+        return redirect()->route('admin.posts.index');  //rotta dove visualizzare tutta la lista dei posts
     }
 
     /**
@@ -74,8 +85,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
-        $post = Post::findOrFail($id);  // $post = Post::find($id);
+        //recupero il singolo post relativo a quell'id
+        $post = Post::find($id);  // $post = Post::findOrFail($id);
         if(!$post)
         {
             abort(404);
@@ -93,12 +104,12 @@ class PostController extends Controller
     public function edit($id)
     {
         //
-        $post = Post::findOrFail($id);  // $post = Post::find($id);
+        $post = Post::find($id);  // $post = Post::findOrFail($id);
         if(!$post)
         {
             abort(404);
         }
-        return view('admin.posts.edit',compact('post'));
+        return view('admin.posts.edit',compact('post'));    //la vista conterrà il form in cui compaiono i valori dell'elemento(del post) che si vuole modificare
     }
 
     /**
@@ -111,8 +122,15 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $post = Post::findOrFail($id);  // $post = Post::find($id);
-        $request->validate([
+        $post = Post::findOrFail($id);
+        /* $post = Post::find($id);
+          if(!$post)
+          {
+            abort(404);
+          }
+        */
+        //$request contiene il valore del form che l'utente ha compilato
+        $request->validate([    //se la validazione fallisce vengo rispedito (reindirizzato) alla rotta edit
             'title'=>'required|max:250',
             'content'=>'required'
         ]);
@@ -126,7 +144,7 @@ class PostController extends Controller
         $counter = 1;
         while($postFound)
         {
-            $alternativeSlug = $slug . '-' . $counter;
+            $alternativeSlug = $slug . '_' . $counter;
             $counter++;
             $postFound = Post::where('slug',$alternativeSlug)->first();
         }
@@ -146,7 +164,13 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
-        $post = Post::findOrFail($id);  // $post = Post::find($id);
+        $post = Post::findOrFail($id);  //è per essere sicuri(una sicurezza,un controllo in più) ma tanto se il post non esiste non vi è neanche il button submit per cancellarlo
+        /* $post = Post::find($id);
+             if(!$post)
+             {
+                abort(404);
+             }
+        */
         $post->delete();
 
         return redirect()->route('admin.posts.index');
